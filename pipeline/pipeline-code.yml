@@ -1,0 +1,50 @@
+trigger:
+  branches:
+    include:
+      - main
+
+stages:
+- template: ../templates/dockerimagebuild.yaml
+- template: ../templates/plan.yaml
+- template: ../templates/apply.yaml
+  
+
+
+# stages:
+# - stage: BiuldPush
+#   jobs: 
+#   - job: DockerBuild
+#     steps: 
+#     - script: 'docker --version'      
+#       displayName: 'Docker --version'
+
+#     - script: 'docker login -u $(USERNAME) -p $(PASSWORD)'
+#       displayName: 'Docker Login'
+
+#     - script: 'docker build -t saranyamani11/mypage-pipeline-dockerimage:1.0 -f Dockerfile .'
+#       displayName: 'Docker Build'
+
+#     - script: 'docker push saranyamani11/mypage-pipeline-dockerimage:1.0'
+#       displayName: 'Docker Push'
+# - stage: DevPlan
+#   variables:
+#   - group: dev-group-vars
+  
+#   jobs:
+#   - job: TerraformPlan
+#     steps:
+#     - script: 'terraform version'
+#       displayName: 'terraform version' 
+#     - script: 'terraform init -input=false'
+#       displayName: 'Init'
+#     - script: 'terraform validate'
+#       displayName: 'Validate'
+#     - script: 'terraform plan -var="ARM_CLIENT_ID=$(ARM_CLIENT_ID)" -var="ARM_CLIENT_SECRET=$(ARM_CLIENT_SECRET)" -var="ARM_TENANT_ID=$(ARM_TENANT_ID)"  -var="ARM_SUBSCRIPTION_ID=$(ARM_SUBSCRIPTION_ID)"'
+#       displayName: 'Plan'
+#   - job: TerraformApply
+#     steps:
+#     - script: 'terraform init -input=false'
+#       displayName: 'Init'  
+#     - script: 'terraform apply -auto-approve -var="ARM_CLIENT_ID=$(ARM_CLIENT_ID)" -var="ARM_CLIENT_SECRET=$(ARM_CLIENT_SECRET)" -var="ARM_TENANT_ID=$(ARM_TENANT_ID)"  -var="ARM_SUBSCRIPTION_ID=$(ARM_SUBSCRIPTION_ID)"'
+#       displayName: 'Apply'
+          

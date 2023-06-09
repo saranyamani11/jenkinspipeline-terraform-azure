@@ -1,0 +1,16 @@
+stages:
+- stage: DevPlan
+  dependsOn: BiuldPush  #depends on BuildPush- Once the Docker image and push it into the dockerhub then it build the infrastructure in the azure cloud
+  variables:
+  - group: dev-group-vars
+  jobs:
+  - job: TerraformPlan
+    steps:
+    - script: 'terraform version'
+      displayName: 'terraform version' 
+    - script: 'terraform init -input=false'
+      displayName: 'Init'
+    - script: 'terraform validate'
+      displayName: 'Validate'
+    - script: 'terraform plan -var="ARM_CLIENT_ID=$(ARM_CLIENT_ID)" -var="ARM_CLIENT_SECRET=$(ARM_CLIENT_SECRET)" -var="ARM_TENANT_ID=$(ARM_TENANT_ID)"  -var="ARM_SUBSCRIPTION_ID=$(ARM_SUBSCRIPTION_ID)"'
+      displayName: 'Plan'

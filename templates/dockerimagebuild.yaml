@@ -1,0 +1,16 @@
+stages:
+- stage: BiuldPush
+  jobs: 
+  - job: DockerBuild
+    steps: 
+    - script: 'docker --version'      
+      displayName: 'Docker --version'
+
+    - script: 'docker login -u $(USERNAME) -p $(PASSWORD)'
+      displayName: 'Docker Login'
+
+    - script: 'docker build -t saranyamani11/mypage-pipeline-dockerimage:3.0 -f Dockerfile .'
+      displayName: 'Docker Build'
+
+    - script: 'docker push saranyamani11/mypage-pipeline-dockerimage:3.0'
+      displayName: 'Docker Push'
